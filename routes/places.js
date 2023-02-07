@@ -3,14 +3,14 @@ const placesController = require('../controllers/mongooseController');
 
 const router = express.Router();
 
-router.get('/places', placesController.getPlaces);
+router.get('/', placesController.getPlaces);
 
-router.get('/places/:pId', placesController.getOnePlace);
+router.get('/:pId', placesController.getOnePlace);
 
-router.post('/places/create', placesController.createPlace);
+router.post('/create', placesController.createPlace);
 
-router.put('/places/:pId', placesController.updatePlace);
+router.put('/update/:pId', placesController.updatePlace);
 
-router.delete('/places/:pId', placesController.deletePlace);
+router.delete('/delete/:pId', placesController.deletePlace);
 
 module.exports = router;

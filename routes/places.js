@@ -1,5 +1,4 @@
 const express = require("express");
-const path = require("path");
 const placesController = require('../controllers/mongooseController');
 
 const router = express.Router();

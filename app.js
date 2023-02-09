@@ -20,4 +20,6 @@ app.use(express.urlencoded({extended: true}));
 
 app.listen(PORT, () => {
   `Server runs at port ${PORT}.`
-})
+});
+
+module.exports = app;

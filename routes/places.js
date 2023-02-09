@@ -3,6 +3,8 @@ const placesController = require('../controllers/mongooseController');
 
 const router = express.Router();
 
+router.get('/', placesController.getWelcome);
+
 router.get('/places', placesController.getPlaces);
 
 router.get('/places/:pId', placesController.getOnePlace);

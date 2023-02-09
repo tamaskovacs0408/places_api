@@ -31,6 +31,10 @@ const createPlace = async (req, res, next) => {
   res.json(result);
 };
 
+const getWelcome = async (req, res, next) => {
+  res.send("Welcome to the Places REST API! You can get the places at the /places route!")
+}
+
 // Get all
 const getPlaces = async (req, res, next) => {
   const places = await Place.find().exec();
@@ -102,7 +106,7 @@ const deletePlace = async (req, res, next) => {
   })
 }
 
-
+exports.getWelcome = getWelcome;
 exports.createPlace = createPlace;
 exports.getPlaces = getPlaces;
 exports.getOnePlace = getOnePlace;

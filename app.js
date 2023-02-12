@@ -16,10 +16,10 @@ app.use(xss());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+app.use(placeRoutes);
+
 app.listen(PORT, () => {
   `Server runs at port ${PORT}.`
 });
-
-app.use(placeRoutes);
 
 module.exports = app;

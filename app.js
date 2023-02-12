@@ -10,8 +10,6 @@ const app = express()
 
 const PORT = 8080;
 
-app.use(placeRoutes);
-
 app.use(helmet());
 app.use(cors());
 app.use(xss());
@@ -21,5 +19,7 @@ app.use(express.urlencoded({extended: true}));
 app.listen(PORT, () => {
   `Server runs at port ${PORT}.`
 });
+
+app.use(placeRoutes);
 
 module.exports = app;

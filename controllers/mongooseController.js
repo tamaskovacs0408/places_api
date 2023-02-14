@@ -16,9 +16,29 @@ mongoose
     console.log(`Connection to the database is failed!\nError: ${error}`);
   });
 
+const getWelcome = async (req, res, next) => {
+  res.send(
+    "Welcome to the Places REST API! You can get the places at the /api/places route!"
+  );
+};
+
+const getPlaces = async (req, res, next) => {
+  const places = await Place.find().exec();
+
+  res.json(places);
+};
+
+const getOnePlace = async (req, res, next) => {
+  const placeId = req.params.pId;
+  const place = await Place.findById(placeId).exec();
+
+  res.json({ place: place.toObject({ getters: true }) });
+};
+
 const createPlace = async (req, res, next) => {
   const createdPlace = new Place({
-    place: req.body.place,
+    placeName: req.body.placeName,
+    location: req.body.location,
     image: req.body.image,
   });
   let result;
@@ -31,30 +51,8 @@ const createPlace = async (req, res, next) => {
   res.json(result);
 };
 
-const getWelcome = async (req, res, next) => {
-  res.send("Welcome to the Places REST API! You can get the places at the /places route!")
-}
-
-// Get all
-const getPlaces = async (req, res, next) => {
-  const places = await Place.find().exec();
-
-  res.json(places);
-};
-
-// Get only one by ID
-
-const getOnePlace = async (req, res, next) => {
-  const placeId = req.params.pId;
-  const place = await Place.findById(placeId).exec();
-
-  res.json({ place: place.toObject({ getters: true }) });
-};
-
-// Update by Id
-
 const updatePlace = async (req, res, next) => {
-  const {place, image} = req.body;
+  const {placeName, location, image} = req.body;
   const placeId = req.params.pId;
 
   let plc;
@@ -66,7 +64,8 @@ const updatePlace = async (req, res, next) => {
     return next(error);
   }
 
-  plc.place = place;
+  plc.placeName = placeName;
+  plc.location = location;
   plc.image = image;
 
   try {
@@ -79,7 +78,6 @@ const updatePlace = async (req, res, next) => {
   res.json({plc: plc.toObject({getters: true})});
 }
 
-// Delete by Id
 
 const deletePlace = async (req, res, next) => {
   const placeId = req.params.pId;

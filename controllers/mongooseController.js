@@ -16,26 +16,26 @@ mongoose
     console.log(`Connection to the database is failed!\nError: ${error}`);
   });
 
-const getWelcome = async (req, res, next) => {
+const getWelcome = async (req, res) => {
   res.send(
     "Welcome to the Places REST API! You can get the places at the /api/places route!"
   );
 };
 
-const getPlaces = async (req, res, next) => {
+const getPlaces = async (req, res) => {
   const places = await Place.find().exec();
 
   res.json(places);
 };
 
-const getOnePlace = async (req, res, next) => {
+const getOnePlace = async (req, res) => {
   const placeId = req.params.pId;
   const place = await Place.findById(placeId).exec();
 
   res.json({ place: place.toObject({ getters: true }) });
 };
 
-const createPlace = async (req, res, next) => {
+const createPlace = async (req, res) => {
   const createdPlace = new Place({
     placeName: req.body.placeName,
     location: req.body.location,

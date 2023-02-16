@@ -4,6 +4,7 @@ const dotenv = require("dotenv").config();
 const URL = `mongodb+srv://tkwebdev:${process.env.MONGODB_PSW}@placescluster.wupqk8k.mongodb.net/?retryWrites=true&w=majority`;
 
 const Place = require("../models/places");
+const HttpError = require("../models/http-error");
 
 mongoose.set("strictQuery", false);
 
@@ -22,20 +23,28 @@ const getWelcome = async (req, res) => {
   );
 };
 
-const getPlaces = async (req, res) => {
+const getPlaces = async (req, res, next) => {
   const places = await Place.find().exec();
 
-  res.json(places);
+  if(!places) {
+    return next(new HttpError("Couldn't find places.", 404))
+  }
+
+  res.status(200).json(places);
 };
 
-const getOnePlace = async (req, res) => {
+const getOnePlace = async (req, res , next) => {
   const placeId = req.params.pId;
   const place = await Place.findById(placeId).exec();
 
-  res.json({ place: place.toObject({ getters: true }) });
+  if (!place) {
+    return next(new HttpError("Couldn't find place for the provided id.", 404))
+  }
+
+  res.status(200).json({ place: place.toObject({ getters: true }) });
 };
 
-const createPlace = async (req, res) => {
+const createPlace = async (req, res, next) => {
   const createdPlace = new Place({
     placeName: req.body.placeName,
     location: req.body.location,
@@ -48,7 +57,7 @@ const createPlace = async (req, res) => {
     console.log(error)
   }
 
-  res.json(result);
+  res.status(201).json(result);
 };
 
 const updatePlace = async (req, res, next) => {

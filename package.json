@@ -1,5 +1,5 @@
 {
-  "name": "places_api",
+  "name": "Places REST API",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -7,8 +7,8 @@
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
-  "author": "Tamas Kovacs",
-  "license": "ISC",
+  "author": "TkWebDev",
+  "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",

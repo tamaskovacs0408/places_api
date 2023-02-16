@@ -9,7 +9,7 @@ router.get('/api/places', placesController.getPlaces);
 
 router.get('/api/places/:pId', placesController.getOnePlace);
 
-router.post('/api/places/create', placesController.createPlace);
+router.post('/api/places', placesController.createPlace);
 
 router.put('/api/places/:pId', placesController.updatePlace);
 

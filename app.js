@@ -20,7 +20,7 @@ app.use(xss());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(placeRoutes);
+app.use("/api/places", placeRoutes);
 
 app.use((req, res, next) => {
   return next(new HttpError("Could not find this route.", 404));

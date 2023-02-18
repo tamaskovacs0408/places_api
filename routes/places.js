@@ -1,18 +1,17 @@
 const express = require("express");
+const { check } = require("express-validator");
 const placesController = require('../controllers/mongooseController');
 
 const router = express.Router();
 
-router.get('/', placesController.getWelcome);
+router.get('/', placesController.getPlaces);
 
-router.get('/api/places', placesController.getPlaces);
+router.get('/:pId', placesController.getOnePlace);
 
-router.get('/api/places/:pId', placesController.getOnePlace);
+router.post('/', placesController.createPlace);
 
-router.post('/api/places', placesController.createPlace);
+router.put('/:pId', placesController.updatePlace);
 
-router.put('/api/places/:pId', placesController.updatePlace);
-
-router.delete('/api/places/:pId', placesController.deletePlace);
+router.delete('/:pId', placesController.deletePlace);
 
 module.exports = router;

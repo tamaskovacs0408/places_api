@@ -1,21 +1,5 @@
-const mongoose = require("mongoose");
-const dotenv = require("dotenv").config();
-
-const URL = `mongodb+srv://tkwebdev:${process.env.MONGODB_PSW}@placescluster.wupqk8k.mongodb.net/?retryWrites=true&w=majority`;
-
 const Place = require("../models/places");
 const HttpError = require("../models/http-error");
-
-mongoose.set("strictQuery", false);
-
-mongoose
-  .connect(URL)
-  .then(() => {
-    console.log("Connected to the database!");
-  })
-  .catch((error) => {
-    console.log(`Connection to the database is failed!\nError: ${error}`);
-  });
 
 const getWelcome = async (req, res) => {
   res.send(

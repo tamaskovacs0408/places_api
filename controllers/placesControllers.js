@@ -1,28 +1,36 @@
 const Place = require("../models/placesModels");
 const HttpError = require("../models/http-error");
+const { validationResult } = require("express-validator");
 
 const getPlaces = async (req, res, next) => {
   const places = await Place.find().exec();
 
-  if(!places) {
-    return next(new HttpError("Couldn't find places.", 404))
+  if (!places) {
+    return next(new HttpError("Couldn't find places.", 404));
   }
 
   res.status(200).json(places);
 };
 
-const getOnePlace = async (req, res , next) => {
+const getOnePlace = async (req, res, next) => {
   const placeId = req.params.pId;
   const place = await Place.findById(placeId).exec();
 
   if (!place) {
-    return next(new HttpError("Couldn't find place for the provided id.", 404))
+    return next(new HttpError("Couldn't find place for the provided id.", 404));
   }
 
   res.status(200).json({ place: place.toObject({ getters: true }) });
 };
 
 const createPlace = async (req, res, next) => {
+  const validationError = validationResult(req);
+
+  if (!validationError.isEmpty()) {
+    console.log(validationError);
+    return next(new HttpError("Invalid input, please check your data!", 422));
+  }
+
   const createdPlace = new Place({
     placeName: req.body.placeName,
     location: req.body.location,
@@ -32,20 +40,26 @@ const createPlace = async (req, res, next) => {
   try {
     result = await createdPlace.save();
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 
   res.status(201).json(result);
 };
 
 const updatePlace = async (req, res, next) => {
-  const {placeName, location, image} = req.body;
+  const validationError = validationResult(req);
+
+  if (!validationError.isEmpty()) {
+    console.log(validationError);
+    return next(new HttpError("Invalid input, please check your data!", 422));
+  }
+
+  const { placeName, location, image } = req.body;
   const placeId = req.params.pId;
 
   let plc;
   try {
     plc = await Place.findById(placeId);
-
   } catch (error) {
     console.log(error);
     return next(error);
@@ -62,34 +76,32 @@ const updatePlace = async (req, res, next) => {
     return next(error);
   }
 
-  res.json({plc: plc.toObject({getters: true})});
-}
-
+  res.json({ plc: plc.toObject({ getters: true }) });
+};
 
 const deletePlace = async (req, res, next) => {
   const placeId = req.params.pId;
   let place;
 
   try {
-    place = await Place.findById(placeId).exec()
+    place = await Place.findById(placeId).exec();
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return next(error);
   }
 
   try {
-    await Place.deleteOne(place)
+    await Place.deleteOne(place);
     //await Place.remove(place)
   } catch (error) {
-    console.log(error)
-    return next(error)
+    console.log(error);
+    return next(error);
   }
-  
 
   res.json({
-    message: `Place ${placeId} deleted.`
-  })
-}
+    message: `Place ${placeId} deleted.`,
+  });
+};
 
 exports.createPlace = createPlace;
 exports.getPlaces = getPlaces;

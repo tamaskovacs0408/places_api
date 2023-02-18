@@ -1,6 +1,6 @@
 const express = require("express");
 const { check } = require("express-validator");
-const placesController = require('../controllers/mongooseController');
+const placesController = require('../controllers/placesControllers');
 
 const router = express.Router();
 

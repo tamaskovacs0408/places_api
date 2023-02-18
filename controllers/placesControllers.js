@@ -1,4 +1,4 @@
-const Place = require("../models/places");
+const Place = require("../models/placesModels");
 const HttpError = require("../models/http-error");
 
 const getPlaces = async (req, res, next) => {

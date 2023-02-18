@@ -5,7 +5,7 @@ const helmet = require("helmet");
 const cors = require("cors");
 const xss = require("xss-clean");
 
-const placeRoutes = require("./routes/places");
+const placeRoutes = require("./routes/placesRoutes");
 const HttpError = require("./models/http-error");
 
 const app = express();

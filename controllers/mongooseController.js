@@ -1,12 +1,6 @@
 const Place = require("../models/places");
 const HttpError = require("../models/http-error");
 
-const getWelcome = async (req, res) => {
-  res.send(
-    "Welcome to the Places REST API! You can get the places at the /api/places route!"
-  );
-};
-
 const getPlaces = async (req, res, next) => {
   const places = await Place.find().exec();
 
@@ -97,7 +91,6 @@ const deletePlace = async (req, res, next) => {
   })
 }
 
-exports.getWelcome = getWelcome;
 exports.createPlace = createPlace;
 exports.getPlaces = getPlaces;
 exports.getOnePlace = getOnePlace;

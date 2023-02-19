@@ -46,7 +46,11 @@ The following endpoints are available in this API:
 
 `GET http://localhost:8080/api/places/:pId`
 
-3. Add new place
+3. Get places by locations
+
+`GET http://localhost:8080/api/places/location/:loc`
+
+4. Add new place
 
 ```js
 POST `http://localhost:8080/api/places`
@@ -58,7 +62,7 @@ POST `http://localhost:8080/api/places`
 }
 ```
 
-4. Update a place
+5. Update a place
 
 ```js
 PUT `http://localhost:8080/api/places/:pId`
@@ -70,7 +74,7 @@ PUT `http://localhost:8080/api/places/:pId`
 }
 ```
 
-5. Delete a place
+6. Delete a place
 
 `DELETE http://localhost:8080/api/places/:pId`
 

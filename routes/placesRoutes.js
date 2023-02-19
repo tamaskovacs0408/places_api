@@ -8,6 +8,8 @@ router.get("/", placesController.getPlaces);
 
 router.get("/:pId", placesController.getOnePlace);
 
+router.get("/location/:loc", placesController.getPlacesByLocation);
+
 router.post(
   "/",
   [

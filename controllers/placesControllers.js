@@ -23,6 +23,24 @@ const getOnePlace = async (req, res, next) => {
   res.status(200).json({ place: place.toObject({ getters: true }) });
 };
 
+const getPlacesByLocation = async (req, res, next) => {
+  const locName = req.params.loc;
+  let placeByLocation;
+
+  try {
+    placeByLocation = await Place.find({ location: locName }).exec();
+  } catch (error) {
+    console.log(error);
+    return next(new HttpError("Could not find location.", 500));
+  }
+
+  res.status(200).json({
+    getPlacesByLocation: placeByLocation.map((place) =>
+      place.toObject({ getters: true })
+    ),
+  });
+};
+
 const createPlace = async (req, res, next) => {
   const validationError = validationResult(req);
 
@@ -41,6 +59,7 @@ const createPlace = async (req, res, next) => {
     result = await createdPlace.save();
   } catch (error) {
     console.log(error);
+    return next(new HttpError("Creating place failed, please try again,", 500));
   }
 
   res.status(201).json(result);
@@ -62,7 +81,7 @@ const updatePlace = async (req, res, next) => {
     plc = await Place.findById(placeId);
   } catch (error) {
     console.log(error);
-    return next(error);
+    return next(new HttpError("Updating place failed, please try again.", 500));
   }
 
   plc.placeName = placeName;
@@ -91,11 +110,10 @@ const deletePlace = async (req, res, next) => {
   }
 
   try {
-    await Place.deleteOne(place);
-    //await Place.remove(place)
+    await Place.remove(place);
   } catch (error) {
     console.log(error);
-    return next(error);
+    return next(new HttpError("Deleting place failed, please try again.", 500));
   }
 
   res.json({
@@ -105,6 +123,7 @@ const deletePlace = async (req, res, next) => {
 
 exports.createPlace = createPlace;
 exports.getPlaces = getPlaces;
+exports.getPlacesByLocation = getPlacesByLocation;
 exports.getOnePlace = getOnePlace;
 exports.updatePlace = updatePlace;
 exports.deletePlace = deletePlace;
